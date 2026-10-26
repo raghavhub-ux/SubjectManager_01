@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8f8f5" />
+  <title>Semester — Study Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#overview" aria-label="Semester home"><span class="brand-mark">s<span>·</span></span><span>semester</span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">▦</span>Overview</button>
+        <button class="nav-item" data-view="subjects"><span class="nav-icon">▤</span>My subjects <span class="nav-count" id="subjectNavCount">0</span></button>
+        <button class="nav-item" data-view="evaluations"><span class="nav-icon">◷</span>Evaluations</button>
+      </nav>
+      <div class="side-divider"></div>
+      <div class="workspace-label">YOUR SUBJECTS <button class="tiny-add" id="quickAdd" aria-label="Add subject">＋</button></div>
+      <div class="subject-nav" id="subjectNav"></div>
+      <div class="sidebar-bottom"><div class="tip-icon">✳</div><div><strong>Small steps add up.</strong><p>A little progress each day goes a long way.</p></div></div>
+      <div class="profile"><div class="avatar">S</div><div><strong>My study space</strong><small>Your semester, in focus</small></div><span class="profile-dots">···</span></div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <b id="breadcrumbCurrent">Overview</b></div><div class="top-actions"><span class="date-chip"><span>◷</span> <span id="todayLabel"></span></span><button class="icon-button" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">◐</button><button class="top-add" id="addSubjectTop"><span>＋</span> Add subject</button></div></header>
+      <div class="content-wrap">
+        <section class="view active" id="overviewView">
+          <div class="welcome-row"><div><div class="eyebrow"><span class="eyebrow-dot"></span> YOUR SEMESTER, ORGANIZED</div><h1>Make this semester <span>count.</span></h1><p class="subheading">A clear view of what you’re learning and what’s coming up.</p></div><button class="primary-button" id="addSubjectHero"><span>＋</span> Add a subject</button></div>
+          <div class="stats-grid">
+            <article class="stat-card"><div class="stat-top"><span>Active subjects</span><span class="stat-symbol lilac">▤</span></div><div class="stat-value" id="subjectStat">0</div><div class="stat-note">Your semester lineup</div></article>
+            <article class="stat-card"><div class="stat-top"><span>Syllabus covered</span><span class="stat-symbol mint">↗</span></div><div class="stat-value"><span id="progressStat">0</span><small>%</small></div><div class="stat-note">Keep the momentum going</div><div class="stat-progress"><span id="overallProgressBar"></span></div></article>
+            <article class="stat-card"><div class="stat-top"><span>Coming up</span><span class="stat-symbol peach">◷</span></div><div class="stat-value" id="upcomingStat">0</div><div class="stat-note">Evaluations on your calendar</div></article>
+          </div>
+          <div class="section-heading"><div><h2>Your subjects</h2><p>Pick up right where you left off.</p></div><button class="text-link" data-go="subjects">View all <span>→</span></button></div>
+          <div class="subject-grid" id="subjectCards"></div>
+          <div class="lower-grid">
+            <section class="panel evaluations-panel"><div class="panel-heading"><div><h2>Coming up</h2><p>Your next evaluations at a glance.</p></div><button class="text-link" data-go="evaluations">See all <span>→</span></button></div><div id="upcomingList" class="upcoming-list"></div></section>
+            <section class="panel focus-panel"><div class="panel-heading"><div><h2>Study focus</h2><p>How your syllabus is shaping up.</p></div><span class="focus-badge">THIS SEMESTER</span></div><div id="focusList" class="focus-list"></div></section>
+          </div>
+          <div class="footer-note"><span>✳</span> One topic at a time. You’re doing great.</div>
+        </section>
+
+        <section class="view" id="subjectsView"><div class="page-heading"><div><div class="eyebrow"><span class="eyebrow-dot"></span> THE BIG PICTURE</div><h1>My subjects</h1><p class="subheading">Your syllabus, broken into manageable steps.</p></div><button class="primary-button" id="addSubjectPage"><span>＋</span> Add a subject</button></div><div class="filter-row"><span id="subjectsSummary">0 subjects</span><div class="filter-tabs"><button class="filter-tab active" data-filter="all">All subjects</button><button class="filter-tab" data-filter="in-progress">In progress</button><button class="filter-tab" data-filter="completed">Completed</button></div></div><div class="subject-grid subject-grid-large" id="allSubjectCards"></div></section>
+
+        <section class="view" id="evaluationsView"><div class="page-heading"><div><div class="eyebrow"><span class="eyebrow-dot"></span> STAY ONE STEP AHEAD</div><h1>Evaluations</h1><p class="subheading">See what’s coming up and plan your prep.</p></div><button class="primary-button" id="addEvaluation"><span>＋</span> Add evaluation</button></div><div class="eval-summary" id="evalSummary"></div><div class="evaluation-board" id="allEvaluations"></div></section>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="subjectDialog" class="modal"><form id="subjectForm" method="dialog"><div class="modal-head"><div><div class="eyebrow"><span class="eyebrow-dot"></span> BUILD YOUR SEMESTER</div><h2>Add a subject</h2><p>Start with a subject and add its syllabus topics.</p></div><button type="button" class="close-button" data-close="subjectDialog" aria-label="Close">×</button></div><label class="field-label" for="subjectName">Subject name</label><input id="subjectName" class="text-input" required maxlength="48" placeholder="e.g. Data Structures" /><div class="form-row"><div><label class="field-label" for="subjectCode">Course code <span>OPTIONAL</span></label><input id="subjectCode" class="text-input" maxlength="16" placeholder="e.g. CS 204" /></div><div><label class="field-label" for="subjectColor">Color</label><select id="subjectColor" class="text-input"><option value="violet">Lavender</option><option value="mint">Mint</option><option value="peach">Peach</option><option value="blue">Sky blue</option><option value="rose">Rose</option><option value="gold">Butter</option></select></div></div><label class="field-label" for="subjectTopics">Syllabus topics <span>ONE PER LINE</span></label><textarea id="subjectTopics" class="text-input textarea" rows="5" placeholder="Introduction & fundamentals&#10;Core concepts&#10;Applications & case studies"></textarea><div class="modal-actions"><button type="button" class="secondary-button" data-close="subjectDialog">Cancel</button><button class="primary-button" type="submit">Add subject <span>→</span></button></div></form></dialog>
+
+  <dialog id="evaluationDialog" class="modal"><form id="evaluationForm" method="dialog"><div class="modal-head"><div><div class="eyebrow"><span class="eyebrow-dot"></span> MAKE A PLAN</div><h2>Add an evaluation</h2><p>Keep every deadline somewhere you can see it.</p></div><button type="button" class="close-button" data-close="evaluationDialog" aria-label="Close">×</button></div><label class="field-label" for="evaluationName">Evaluation name</label><input id="evaluationName" class="text-input" required maxlength="60" placeholder="e.g. Mid-semester exam" /><div class="form-row"><div><label class="field-label" for="evaluationSubject">Subject</label><select id="evaluationSubject" class="text-input" required></select></div><div><label class="field-label" for="evaluationType">Type</label><select id="evaluationType" class="text-input"><option>Exam</option><option>Quiz</option><option>Assignment</option><option>Presentation</option><option>Other</option></select></div></div><label class="field-label" for="evaluationDate">Date</label><input id="evaluationDate" type="date" class="text-input" required /><div class="modal-actions"><button type="button" class="secondary-button" data-close="evaluationDialog">Cancel</button><button class="primary-button" type="submit">Save evaluation <span>→</span></button></div></form></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
